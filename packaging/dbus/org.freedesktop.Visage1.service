@@ -1,0 +1,5 @@
+[D-BUS Service]
+Name=org.freedesktop.Visage1
+Exec=/bin/false
+User=root
+SystemdService=visaged.service

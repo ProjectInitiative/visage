@@ -149,6 +149,14 @@ rustPlatform.buildRustPackage {
     install -Dm644 packaging/dbus/org.freedesktop.Visage1.conf \
       $out/share/dbus-1/system.d/org.freedesktop.Visage1.conf
 
+    # D-Bus service activation (fixes #123): when pam_visage calls Verify while
+    # visaged is (re)starting — e.g. the first unlock after resume, where
+    # visage-resume restarts the daemon ~0.5s before the lock screen fires —
+    # the bus queues the method call behind systemd starting visaged instead
+    # of rejecting it with ServiceUnknown.
+    install -Dm644 packaging/dbus/org.freedesktop.Visage1.service \
+      $out/share/dbus-1/system-services/org.freedesktop.Visage1.service
+
     # systemd units — patch ExecStart to reference the Nix store path
     install -Dm644 packaging/systemd/visaged.service \
       $out/lib/systemd/system/visaged.service

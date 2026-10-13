@@ -5,6 +5,11 @@ Requires=dbus.service
 
 [Service]
 Type=simple
+# Name the bus this service owns so systemd and D-Bus agree on readiness:
+# with the activation file (org.freedesktop.Visage1.service) present, a
+# method call arriving while the daemon is starting is queued behind this
+# unit reaching its bus name instead of being rejected ServiceUnknown (#123).
+BusName=org.freedesktop.Visage1
 ExecStart=/usr/bin/visaged
 Restart=on-failure
 RestartSec=5
